@@ -1,0 +1,32 @@
+# NLP Libraries
+spacy
+transformers
+torch
+vaderSentiment
+
+# LLM Integration
+ollama
+
+# Data Processing
+pandas
+numpy
+
+# API and Utilities
+pydantic
+tqdm
+
+# Testing
+pytest
+pytest-cov
+
+# Jupyter
+jupyter
+notebook
+matplotlib
+seaborn
+
+# Additional utilities
+python-dotenv
+protobuf
+sentencepiece
+tiktoken
