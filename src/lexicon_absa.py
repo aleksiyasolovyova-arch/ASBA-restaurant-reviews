@@ -4,7 +4,7 @@ import nltk
 from typing import List
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from nltk.corpus import stopwords
-from .base import ABSAAnalyzer, AspectSentiment
+from src.base import ABSAAnalyzer, AspectSentiment
 
 nltk.download('vader_lexicon', quiet=True)
 nltk.download('stopwords', quiet=True)
