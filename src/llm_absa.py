@@ -1,6 +1,3 @@
-"""
-LLM-Based Aspect-Based Sentiment Analysis using Ollama
-"""
 import json
 import re
 from typing import List, Dict, Any, Optional
@@ -152,7 +149,7 @@ class LLMABSA(ABSAAnalyzer):
             except json.JSONDecodeError:
                 pass
 
-        # This is Claude generated
+        # This is Claude generated, couldn't figure out the regex:(
         cleaned = re.sub(r'^```json\s*', '', response.strip())
         cleaned = re.sub(r'\s*```$', '', cleaned).strip()
 
