@@ -1,0 +1,79 @@
+{
+  "reviews": [
+    {
+      "text": "If you decide to eat here, just be aware it is going to take about 2 hours from beginning to end. We have tried it multiple times, because I want to like it! The food is good, but it takes a very long time to come out. The waitstaff is very young, but usually pleasant. We have just had too many experiences where we spent way too long waiting.",
+      "stars": 3,
+      "review_id": "test_001"
+    },
+    {
+      "text": "Family diner. Had the buffet. Eclectic assortment: a large chicken leg, fried jalapeño, tamale, two rolled grape leaves, fresh melon. All good. Lots of Mexican choices there. Friendly, attentive staff. Good place for a casual relaxed meal with no expectations.",
+      "stars": 3,
+      "review_id": "test_002"
+    },
+    {
+      "text": "Wow! Yummy, different, delicious. Our favorite is the lamb curry and korma. With 10 different kinds of naan!!! Don't let the outside deter you...go in and try something new! You'll be glad you did!",
+      "stars": 5,
+      "review_id": "test_003"
+    },
+    {
+      "text": "Cute interior and owner gave us tour of upcoming patio/rooftop area which will be great on beautiful days. Cheese curds were very good and very filling. Had the onion, gruyere, tomato sandwich. Wasn't too much cheese which I liked. Would like to see more menu options added.",
+      "stars": 4,
+      "review_id": "test_004"
+    },
+    {
+      "text": "I am a long term frequent customer of this establishment. I just went in to order take out and was told they're too busy to do it. Really? The place is maybe half full at best. I'm a frequent customer AND great tipper. NEVER going back!",
+      "stars": 1,
+      "review_id": "test_005"
+    },
+    {
+      "text": "Amazingly amazing wings and homemade bleu cheese. Had the ribeye: tender, perfectly prepared, delicious. Nice selection of craft beers. Would DEFINITELY recommend checking out this hidden gem.",
+      "stars": 5,
+      "review_id": "test_006"
+    },
+    {
+      "text": "Had a party of 6 here for hibachi. Our waitress brought our separate sushi orders on one plate so we couldn't really tell who's was who's and forgot several items. Service was fishy, food was pretty good. But for the money I wouldn't go back.",
+      "stars": 3,
+      "review_id": "test_007"
+    },
+    {
+      "text": "Love going here for happy hour or dinner! Great patio with fans to beat the heat! Also very accommodating at this location. I like the Veal Milanese but with mixed greens instead of pasta! They'll modify the menu to suit your taste!",
+      "stars": 4,
+      "review_id": "test_008"
+    },
+    {
+      "text": "Good food--loved the gnocchi with marinara. The baked eggplant appetizer was very good too. The service was very slow, but despite this, I'd go back, the food is just that good.",
+      "stars": 4,
+      "review_id": "test_009"
+    },
+    {
+      "text": "Great place for breakfast! I had the waffle, which was fluffy and perfect, and home fries which were nice and smashed and crunchy. Friendly waitstaff. Will definitely be back!",
+      "stars": 5,
+      "review_id": "test_010"
+    },
+    {
+      "text": "Tremendous service that complemented the delicious food. Pretty expensive establishment (40-50$ avg for your main course), but its definitely backs that up with an atmosphere that's comparable with any top tier restaurants.",
+      "stars": 5,
+      "review_id": "test_011"
+    },
+    {
+      "text": "My absolute favorite cafe in the city. Their black and white latte is probably the best I've ever had, soups are always really good and there's just a lot of space to do work. The noise level is perfect.",
+      "stars": 5,
+      "review_id": "test_012"
+    },
+    {
+      "text": "The margherita pizza had a cracker-like crust and was pretty light overall. The cheese was good, but none of the other toppings added much flavor. I'll be sticking with their burgers or tenderloins on future visits.",
+      "stars": 3,
+      "review_id": "test_013"
+    },
+    {
+      "text": "The hubby and I have been here on multiple occasions and we have loved every part of the meal. The servers are very knowledgeable about the menu. The wine and cocktail menus are spot on. The food divine.",
+      "stars": 4,
+      "review_id": "test_014"
+    },
+    {
+      "text": "Terrible experience. The food was cold, the staff was rude, and the prices were outrageous for the quality. Won't be coming back.",
+      "stars": 1,
+      "review_id": "test_015"
+    }
+  ]
+}

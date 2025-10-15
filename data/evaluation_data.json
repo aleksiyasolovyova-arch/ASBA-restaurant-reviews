@@ -1,0 +1,45 @@
+{
+  "labeled_reviews": [
+    {
+      "text": "The food is good, but it takes a very long time to come out. The waitstaff is very young, but usually pleasant.",
+      "aspects": [
+        {"aspect": "food", "sentiment": "positive"},
+        {"aspect": "waitstaff", "sentiment": "positive"},
+        {"aspect": "service", "sentiment": "negative"}
+      ]
+    },
+    {
+      "text": "Wow! Yummy, different, delicious. Our favorite is the lamb curry and korma. With 10 different kinds of naan!!!",
+      "aspects": [
+        {"aspect": "lamb curry", "sentiment": "positive"},
+        {"aspect": "korma", "sentiment": "positive"},
+        {"aspect": "naan", "sentiment": "positive"}
+      ]
+    },
+    {
+      "text": "Terrible experience. The food was cold, the staff was rude, and the prices were outrageous for the quality.",
+      "aspects": [
+        {"aspect": "food", "sentiment": "negative"},
+        {"aspect": "staff", "sentiment": "negative"},
+        {"aspect": "prices", "sentiment": "negative"},
+        {"aspect": "quality", "sentiment": "negative"}
+      ]
+    },
+    {
+      "text": "Great place for breakfast! I had the waffle, which was fluffy and perfect. Friendly waitstaff.",
+      "aspects": [
+        {"aspect": "waffle", "sentiment": "positive"},
+        {"aspect": "waitstaff", "sentiment": "positive"},
+        {"aspect": "breakfast", "sentiment": "positive"}
+      ]
+    },
+    {
+      "text": "Good food--loved the gnocchi with marinara. The service was very slow, but despite this, I'd go back.",
+      "aspects": [
+        {"aspect": "food", "sentiment": "positive"},
+        {"aspect": "gnocchi", "sentiment": "positive"},
+        {"aspect": "service", "sentiment": "negative"}
+      ]
+    }
+  ]
+}

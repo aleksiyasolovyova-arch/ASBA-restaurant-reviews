@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from typing import List, Tuple
-import re
+import spacy
 from .base import ABSAAnalyzer, AspectSentiment
 
 
@@ -19,6 +19,8 @@ class TransformerABSA(ABSAAnalyzer):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
+        # spaCy for aspect extraction
+        self.nlp = spacy.load("en_core_web_sm")
         self.label_map = {0: 'negative', 1: 'neutral', 2: 'positive'}
 
     def analyze(self, text: str) -> List[AspectSentiment]:
@@ -38,14 +40,23 @@ class TransformerABSA(ABSAAnalyzer):
         return results
 
     def _extract_aspects(self, text: str) -> List[str]:
-        #Extract nouns as aspect candidates.
-        words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())
-        stop_words = {'the', 'was', 'were', 'and', 'but', 'very', 'really', 'quite'}
-        aspects = [w for w in words if w not in stop_words]
-        return list(dict.fromkeys(aspects))[:5] or ['item']
+        #Extract nouns as aspect candidates using spaCy.
+        doc = self.nlp(text)
+        aspects = []
+
+        # Get all nouns from the text
+        for token in doc:
+            if token.pos_ in ["NOUN", "PROPN"]:
+                noun = token.text.lower()
+                if len(noun) > 2 and noun not in aspects:
+                    if noun not in ['thing', 'place', 'way', 'time']:
+                        aspects.append(noun)
+
+        # If no aspects found, use 'overall' as fallback   #Recommended by Claude
+        return aspects[:5] if aspects else ['overall']
 
     def _predict_sentiment(self, text: str, aspect: str) -> Tuple[str, float]:
-        #Predict sentiment for text-aspect pair.
+        #Predict sentiment for text-aspect pair.#
         input_text = f"{text} [SEP] {aspect}"
 
         inputs = self.tokenizer(
@@ -55,9 +66,9 @@ class TransformerABSA(ABSAAnalyzer):
             max_length=512
         )
 
-        inputs = {k: v.to(self.device) for k, v in inputs.items()} #This was recommended by Claude to have GPU support
+        inputs = {k: v.to(self.device) for k, v in inputs.items()}   #This was recommended by Claude to have GPU support
 
-        with torch.no_grad():  #Recommended by Claude to save memory and speed up computation
+        with torch.no_grad():    #Recommended by Claude to save memory and speed up computation
             outputs = self.model(**inputs)
             probs = torch.softmax(outputs.logits, dim=-1)[0]
             predicted_class = probs.argmax().item()

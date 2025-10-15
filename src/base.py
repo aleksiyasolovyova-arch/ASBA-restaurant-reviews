@@ -3,10 +3,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
-
 @dataclass
 class AspectSentiment:
-
     aspect: str
     sentiment: str
     confidence: float
@@ -35,25 +33,10 @@ class AspectSentiment:
     def __str__(self) -> str:
         return f"Aspect('{self.aspect}') → Sentiment: {self.sentiment.upper()} (conf: {self.confidence:.2f})"
 
+
 #Abstract base class for all ABSA implementations.
 class ABSAAnalyzer(ABC):
 
     @abstractmethod
     def analyze(self, text: str) -> List[AspectSentiment]:
-
         raise NotImplementedError("Subclasses must implement analyze() method")
-
-    # Analyze multiple texts in batch.
-    def batch_analyze(self, texts: List[str]) -> List[List[AspectSentiment]]:
-
-        results = []
-        for text in texts:
-            try:
-                results.append(self.analyze(text))
-            except Exception as e:
-                print(f"Error analyzing text: {e}")
-                results.append([])
-        return results
-
-    def get_name(self) -> str:
-        return self.__class__.__name__

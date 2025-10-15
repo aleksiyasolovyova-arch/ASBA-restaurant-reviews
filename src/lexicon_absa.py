@@ -10,7 +10,7 @@ nltk.download('vader_lexicon', quiet=True)
 nltk.download('stopwords', quiet=True)
 
 
-class LexiconABSAAnalyzer(ABSAAnalyzer):
+class LexiconABSA(ABSAAnalyzer):
 
     def __init__(self):
         self.sia = SentimentIntensityAnalyzer()

@@ -19,11 +19,11 @@ class LLMABSA(ABSAAnalyzer):
 
             try:
                 ollama.show(self.model_name)
-                print(f"✓ Model '{self.model_name}' is available.")
+                print(f"Model '{self.model_name}' is available.")
             except:
                 print(f"Model '{self.model_name}' not found. Attempting to pull...")
                 ollama.pull(self.model_name)
-                print(f"✓ Model '{self.model_name}' pulled successfully.")
+                print(f"Model '{self.model_name}' pulled successfully.")
 
         except Exception as e:
             print(f"Warning: Could not verify model: {e}")

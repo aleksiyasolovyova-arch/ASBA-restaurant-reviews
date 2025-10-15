@@ -3,6 +3,8 @@ spacy
 transformers
 torch
 vaderSentiment
+nltk
+
 
 # LLM Integration
 ollama
