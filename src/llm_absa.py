@@ -7,7 +7,7 @@ from src.base import ABSAAnalyzer, AspectSentiment
 
 class LLMABSA(ABSAAnalyzer):
 
-    def __init__(self, model_name: str = "llama3.2", temperature: float = 0.1, max_retries: int = 3):
+    def __init__(self, model_name: str = "llama3.1:8b", temperature: float = 0.1, max_retries: int = 3):
         self.model_name = model_name
         self.temperature = temperature
         self.max_retries = max_retries
@@ -34,10 +34,14 @@ class LLMABSA(ABSAAnalyzer):
 #"Create a Python function that generates a prompt for ASBA. It should take text/string as input and return a formatted prompt string.
 # Include clear instructions and examples, specify JSON output with aspect, sentiment and confidence fields.Format the final text input at the end of the prompt"
     def _create_prompt(self, text: str) -> str:
-        """
-        Create a well-structured prompt with few-shot examples.
-        """
         prompt = """You are an expert at aspect-based sentiment analysis. Your task is to identify specific aspects (features, attributes, or entities) mentioned in text and determine the sentiment expressed toward each aspect.
+
+    CRITICAL RULES:
+    1. Sentiment must be EXACTLY one of these three words: "positive", "negative", or "neutral"
+    2. DO NOT use words like: mixed, good, great, bad, interesting, friendly, disgusting, awful, excellent, etc.
+    3. If something is described positively (good, great, excellent, friendly, interesting) → use "positive"
+    4. If something is described negatively (bad, disgusting, awful, terrible) → use "negative"  
+    5. If something is mixed or unclear → use "neutral"
 
     Instructions:
     1. Identify all aspects mentioned in the text (e.g., food, service, price, quality, etc.)
@@ -50,8 +54,8 @@ class LLMABSA(ABSAAnalyzer):
       "aspects": [
         {{
           "aspect": "aspect name",
-          "sentiment": "positive/negative/neutral",
-          "confidence": 0.0-1.0
+          "sentiment": "positive",
+          "confidence": 0.95
         }}
       ]
     }}
@@ -90,7 +94,6 @@ class LLMABSA(ABSAAnalyzer):
     Now analyze this text:
     Input: "{text}"
     Output:"""
-
         return prompt.format(text=text)
 
     def _call_llama(self, prompt: str) -> str:
@@ -164,33 +167,61 @@ class LLMABSA(ABSAAnalyzer):
         results = []
         aspects = parsed_data.get('aspects', [])
         if not isinstance(aspects, list):
-            print("Warning: 'aspects' is not a list")
+            print("Warning: 'aspects' is not a list or missing.")
             return results
+
+
+        SENTIMENT_MAP = {
+            'good': 'positive', 'great': 'positive', 'excellent': 'positive',
+            'amazing': 'positive', 'wonderful': 'positive', 'friendly': 'positive',
+            'interesting': 'positive', 'nice': 'positive', 'lovely': 'positive',
+            'bad': 'negative', 'terrible': 'negative', 'awful': 'negative',
+            'disgusting': 'negative', 'poor': 'negative', 'horrible': 'negative',
+            'mixed': 'neutral', 'ok': 'neutral', 'okay': 'neutral', 'fine': 'neutral'
+        }
 
         for item in aspects:
             try:
-                aspect = item.get('aspect', '').strip()
-                sentiment = item.get('sentiment', 'neutral').lower().strip()
-                confidence = float(item.get('confidence', 0.5))
+                if not isinstance(item, dict):
+                    print(f"Warning: Skipping non-dict aspect entry: {item}")
+                    continue
+
+                aspect = str(item.get('aspect', '')).strip()
+                sentiment = str(item.get('sentiment', 'neutral')).lower().strip()
+                confidence = item.get('confidence', 0.5)
+
+                try:
+                    confidence = float(confidence)
+                except (TypeError, ValueError):
+                    confidence = 0.5
 
                 if sentiment not in ['positive', 'negative', 'neutral']:
-                    print(f"Warning: Invalid sentiment '{sentiment}', defaulting to 'neutral'")
-                    sentiment = 'neutral'
+                    original = sentiment
+                    sentiment = SENTIMENT_MAP.get(sentiment, 'neutral')
+                    print(f"Warning: Mapped invalid sentiment '{original}' → '{sentiment}'")
 
                 confidence = max(0.0, min(1.0, confidence))
 
                 if aspect:
-                    results.append(AspectSentiment(
-                        aspect=aspect,
-                        sentiment=sentiment,
-                        confidence=confidence,
-                        text_span=None
-                    ))
-            except (ValueError, TypeError) as e:
-                print(f"Warning: Skipping invalid aspect entry: {item}. Error: {e}")
+                    results.append(
+                        AspectSentiment(
+                            aspect=aspect,
+                            sentiment=sentiment,
+                            confidence=confidence,
+                            text_span=None
+                        )
+                    )
+            except Exception as e:
+                print(f"Warning: Skipping invalid aspect entry {item}. Error: {e}")
                 continue
 
-        return results
+        unique = {}
+        for r in results:
+            key = (r.aspect.lower(), r.sentiment)
+            if key not in unique or r.confidence > unique[key].confidence:
+                unique[key] = r
+
+        return list(unique.values())
 
     def analyze(self, text: str, debug: bool = False) -> List[AspectSentiment]:
         if not text or not text.strip():
