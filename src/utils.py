@@ -8,7 +8,7 @@ def load_test_samples(filepath: str = "data/test_samples.json") -> List[Dict[str
         data = json.load(f)
 
     if isinstance(data, dict):
-        return data.get('samples', [])
+        return data.get('reviews', [])
     return data
 
 
@@ -18,7 +18,7 @@ def load_evaluation_data(filepath: str = "data/evaluation_data.json") -> List[Di
         data = json.load(f)
 
     if isinstance(data, dict):
-        return data.get('samples', [])
+        return data.get('labeled_reviews', [])
     return data
 
 

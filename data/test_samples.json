@@ -74,6 +74,431 @@
       "text": "Terrible experience. The food was cold, the staff was rude, and the prices were outrageous for the quality. Won't be coming back.",
       "stars": 1,
       "review_id": "test_015"
+    },
+    {
+      "text": "The tacos were absolutely phenomenal. Fresh ingredients, perfectly seasoned meat, and the salsa bar had so many options! Service was quick and friendly. Only complaint is the parking situation.",
+      "stars": 4,
+      "review_id": "test_016"
+    },
+    {
+      "text": "Went for lunch and the burger was mediocre at best. Overcooked, dry, and the bun was stale. The fries were good though. Probably won't return.",
+      "stars": 2,
+      "review_id": "test_017"
+    },
+    {
+      "text": "Beautiful atmosphere with dim lighting and comfortable seating. The steak was cooked to perfection, but the sides were underwhelming. Wine list is extensive and reasonably priced.",
+      "stars": 4,
+      "review_id": "test_018"
+    },
+    {
+      "text": "Worst sushi I've ever had. The fish tasted old and the rice was mushy. Server was nice but that doesn't make up for inedible food. Stay away!",
+      "stars": 1,
+      "review_id": "test_019"
+    },
+    {
+      "text": "Amazing brunch spot! The eggs benedict was incredible, hollandaise sauce was perfect. Mimosas were strong and affordable. Gets busy on weekends so arrive early.",
+      "stars": 5,
+      "review_id": "test_020"
+    },
+    {
+      "text": "Decent Italian place. The carbonara was authentic and flavorful. Portions could be bigger for the price. Service was attentive but not overbearing.",
+      "stars": 3,
+      "review_id": "test_021"
+    },
+    {
+      "text": "The ramen here is legit! Rich broth, perfectly cooked noodles, and generous toppings. A bit pricey but worth it. The gyoza appetizer was also excellent.",
+      "stars": 5,
+      "review_id": "test_022"
+    },
+    {
+      "text": "Ordered delivery and everything arrived cold. The pad thai was bland and the spring rolls were soggy. Maybe dining in is better but this was disappointing.",
+      "stars": 2,
+      "review_id": "test_023"
+    },
+    {
+      "text": "Great neighborhood spot. Nothing fancy but the food is consistently good and prices are fair. The Greek salad and chicken souvlaki are my go-to items.",
+      "stars": 4,
+      "review_id": "test_024"
+    },
+    {
+      "text": "The BBQ ribs fell right off the bone and the sauce was tangy and sweet. Mac and cheese was creamy perfection. Only issue was the coleslaw was too vinegary.",
+      "stars": 4,
+      "review_id": "test_025"
+    },
+    {
+      "text": "Pretentious atmosphere and overpriced menu for mediocre food. The scallops were rubbery and the risotto was undercooked. Expected much more for these prices.",
+      "stars": 2,
+      "review_id": "test_026"
+    },
+    {
+      "text": "Best pizza in town! Thin crust, fresh mozzarella, and the wood-fired oven gives it that perfect char. Can't go wrong with the margherita or pepperoni.",
+      "stars": 5,
+      "review_id": "test_027"
+    },
+    {
+      "text": "The pho was okay but nothing special. Broth lacked depth of flavor. Service was slow even though the restaurant was nearly empty. Probably won't be back.",
+      "stars": 2,
+      "review_id": "test_028"
+    },
+    {
+      "text": "Fantastic seafood! The lobster roll was packed with meat and lightly dressed. The clam chowder was creamy and full of clams. Prices are high but justified.",
+      "stars": 5,
+      "review_id": "test_029"
+    },
+    {
+      "text": "Average Mexican food. The enchiladas were swimming in sauce and the beans were clearly from a can. Margaritas were strong though. Decent for a quick bite.",
+      "stars": 3,
+      "review_id": "test_030"
+    },
+    {
+      "text": "The dim sum selection was impressive and everything we tried was delicious. Shrimp dumplings and BBQ pork buns were standouts. Gets crowded but worth the wait.",
+      "stars": 4,
+      "review_id": "test_031"
+    },
+    {
+      "text": "Horrible experience from start to finish. Waited 30 minutes for a table despite having a reservation. Food took forever and was cold when it arrived. Manager was dismissive of complaints.",
+      "stars": 1,
+      "review_id": "test_032"
+    },
+    {
+      "text": "The curry was extremely spicy even though I ordered mild. The naan was burnt around the edges. Service was friendly but the kitchen clearly has issues.",
+      "stars": 2,
+      "review_id": "test_033"
+    },
+    {
+      "text": "Perfect date night spot! Romantic ambiance, attentive service, and every dish was beautifully presented and delicious. The tasting menu is expensive but worth every penny.",
+      "stars": 5,
+      "review_id": "test_034"
+    },
+    {
+      "text": "Solid steakhouse. My ribeye was cooked exactly as ordered. Sides were standard but well-executed. Noise level is a bit high for conversation.",
+      "stars": 4,
+      "review_id": "test_035"
+    },
+    {
+      "text": "The chicken tikka masala was watery and lacked flavor. Samosas were greasy. On the plus side, the garlic naan was fresh and tasty.",
+      "stars": 2,
+      "review_id": "test_036"
+    },
+    {
+      "text": "Incredible Thai food! The green curry had the perfect balance of spice and coconut. Tom yum soup was authentic and flavorful. Highly recommend!",
+      "stars": 5,
+      "review_id": "test_037"
+    },
+    {
+      "text": "Decent sandwich shop. Bread is fresh-baked daily which is nice. Fillings are generous but nothing particularly memorable. Good for a quick lunch.",
+      "stars": 3,
+      "review_id": "test_038"
+    },
+    {
+      "text": "The tapas were fantastic! Patatas bravas, gambas al ajillo, and the croquetas were all excellent. Great for sharing. Sangria was refreshing and not too sweet.",
+      "stars": 5,
+      "review_id": "test_039"
+    },
+    {
+      "text": "Waited over an hour for our food only to receive the wrong orders. When we finally got the correct dishes, they were lukewarm. Staff seemed overwhelmed and disorganized.",
+      "stars": 1,
+      "review_id": "test_040"
+    },
+    {
+      "text": "Great vegetarian options! The impossible burger tastes remarkably like meat and the sweet potato fries are addictive. Nice to have a place that caters to plant-based diets.",
+      "stars": 4,
+      "review_id": "test_041"
+    },
+    {
+      "text": "The fried chicken was crispy on the outside and juicy inside. Biscuits were fluffy and buttery. Portions are huge - definitely come hungry or plan to take leftovers.",
+      "stars": 5,
+      "review_id": "test_042"
+    },
+    {
+      "text": "Overrated and overpriced. The portions were tiny for what you pay. Flavor was okay but nothing special. I've had much better Italian food elsewhere.",
+      "stars": 2,
+      "review_id": "test_043"
+    },
+    {
+      "text": "Cozy coffee shop with great atmosphere for working. The lattes are expertly crafted and the pastries are fresh daily. Can get noisy during peak hours though.",
+      "stars": 4,
+      "review_id": "test_044"
+    },
+    {
+      "text": "The pork belly ramen was divine. Perfectly soft-boiled egg, tender pork, and the broth was so rich and flavorful. This place does authentic Japanese right!",
+      "stars": 5,
+      "review_id": "test_045"
+    },
+    {
+      "text": "Meh. The salad was fresh but the dressing was too acidic. The chicken sandwich was dry. Service was fine but nothing about this place stood out.",
+      "stars": 3,
+      "review_id": "test_046"
+    },
+    {
+      "text": "Filthy restaurant. Tables were sticky, floors were dirty, and I don't even want to think about the kitchen. Food tasted off. Health department should investigate.",
+      "stars": 1,
+      "review_id": "test_047"
+    },
+    {
+      "text": "Phenomenal Ethiopian food! The injera was perfectly sour and spongy. The lamb tibs were tender and well-spiced. Great for groups who want to share.",
+      "stars": 5,
+      "review_id": "test_048"
+    },
+    {
+      "text": "The burger was okay but nothing special. Toppings were fresh. Fries were limp and undersalted. For a burger joint, I expected better. Milkshakes were good though.",
+      "stars": 3,
+      "review_id": "test_049"
+    },
+    {
+      "text": "Absolutely loved the seafood paella! So much shrimp, mussels, and clams. The saffron rice was perfectly cooked. Service was warm and attentive without being intrusive.",
+      "stars": 5,
+      "review_id": "test_050"
+    },
+    {
+      "text": "The food took 45 minutes to arrive and when it did, my order was wrong. The manager offered a discount but the whole experience left a bad taste. Won't return.",
+      "stars": 2,
+      "review_id": "test_051"
+    },
+    {
+      "text": "Great happy hour deals! Half-price appetizers and drinks. The wings are fantastic and the nachos are loaded. Can get crowded after work so arrive early.",
+      "stars": 4,
+      "review_id": "test_052"
+    },
+    {
+      "text": "The most tender brisket I've ever had. Smoked to perfection with a beautiful bark. All the sides were homemade and delicious. This is real BBQ!",
+      "stars": 5,
+      "review_id": "test_053"
+    },
+    {
+      "text": "Disappointing Chinese food. The orange chicken was mostly breading and the fried rice was bland. Egg rolls were the only decent thing. Better options nearby.",
+      "stars": 2,
+      "review_id": "test_054"
+    },
+    {
+      "text": "Solid brunch spot. The avocado toast was good, nothing revolutionary. Bottomless mimosas are a great deal. Service can be slow on weekends when they're packed.",
+      "stars": 3,
+      "review_id": "test_055"
+    },
+    {
+      "text": "The poke bowl was incredibly fresh with generous portions of fish. Love that you can customize everything. The spicy mayo is addictive. New favorite lunch spot!",
+      "stars": 5,
+      "review_id": "test_056"
+    },
+    {
+      "text": "Tried their famous cheesecake and was underwhelmed. Dense and too sweet. The dinner entrees were average. Way too expensive for what you get.",
+      "stars": 2,
+      "review_id": "test_057"
+    },
+    {
+      "text": "Wonderful farm-to-table concept. Everything is seasonal and locally sourced. The roasted chicken was simple but executed perfectly. Great wine pairings.",
+      "stars": 4,
+      "review_id": "test_058"
+    },
+    {
+      "text": "Best banh mi in the city! Crispy baguette, perfectly pickled vegetables, and tender grilled pork. The Vietnamese coffee is strong and sweet. Cash only!",
+      "stars": 5,
+      "review_id": "test_059"
+    },
+    {
+      "text": "The atmosphere is nice but that's where the positives end. Food was bland and overpriced. Our server forgot about us multiple times. Very disappointing.",
+      "stars": 2,
+      "review_id": "test_060"
+    },
+    {
+      "text": "Good neighborhood pub. The fish and chips are solid and the beer selection is decent. Nothing fancy but reliable for a casual meal and drinks.",
+      "stars": 3,
+      "review_id": "test_061"
+    },
+    {
+      "text": "The omakase experience was unforgettable! Each piece of sushi was carefully explained by the chef. The freshest fish I've ever tasted. Expensive but worth it for special occasions.",
+      "stars": 5,
+      "review_id": "test_062"
+    },
+    {
+      "text": "Loud, cramped, and the food didn't justify the hype. The pasta was overcooked and the sauce was too salty. Service was rushed. There are better Italian places around.",
+      "stars": 2,
+      "review_id": "test_063"
+    },
+    {
+      "text": "Nice little bakery. The croissants are buttery and flaky, and the coffee is strong. Good spot for a quick breakfast or afternoon treat. Gets busy on weekends.",
+      "stars": 4,
+      "review_id": "test_064"
+    },
+    {
+      "text": "Hands down the best fried rice I've ever had. Every grain was perfectly seasoned. The Mongolian beef was tender and not too sweet. Will be back soon!",
+      "stars": 5,
+      "review_id": "test_065"
+    },
+    {
+      "text": "The soup was lukewarm and the sandwich bread was stale. Asked for a replacement and they seemed annoyed. Quality has really gone downhill.",
+      "stars": 2,
+      "review_id": "test_066"
+    },
+    {
+      "text": "Standard chain restaurant experience. Food is predictable and consistent. Service was friendly. Nothing amazing but you know what you're getting.",
+      "stars": 3,
+      "review_id": "test_067"
+    },
+    {
+      "text": "The duck confit was incredible - crispy skin and tender meat. The french onion soup was rich and cheesy. Authentic French cuisine at its finest!",
+      "stars": 5,
+      "review_id": "test_068"
+    },
+    {
+      "text": "Tried the famous hot dogs and was not impressed. Toppings were sparse and the bun was soggy. The chili was decent. Overhyped in my opinion.",
+      "stars": 2,
+      "review_id": "test_069"
+    },
+    {
+      "text": "Great sushi happy hour! Half-price rolls and they don't skimp on quality. The spicy tuna is fresh and the tempura is crispy. Sake selection is solid too.",
+      "stars": 4,
+      "review_id": "test_070"
+    },
+    {
+      "text": "The butter chicken is heavenly! Creamy, slightly sweet, and not too spicy. The garlic naan is the perfect accompaniment. Lunch buffet is a great value.",
+      "stars": 5,
+      "review_id": "test_071"
+    },
+    {
+      "text": "Awful service ruined what could have been a decent meal. Server was rude and inattentive. Food was okay but nothing special. Manager didn't seem to care about feedback.",
+      "stars": 1,
+      "review_id": "test_072"
+    },
+    {
+      "text": "The falafel wrap was tasty and filling. Hummus was smooth and well-seasoned. Good vegetarian options. Portion sizes are generous for the price.",
+      "stars": 4,
+      "review_id": "test_073"
+    },
+    {
+      "text": "Incredible Korean BBQ experience! The meat quality is top-notch and the banchan selections are fresh. Staff helps you cook everything perfectly. Come hungry!",
+      "stars": 5,
+      "review_id": "test_074"
+    },
+    {
+      "text": "The lobster bisque was watery and lacked flavor. Main course arrived barely warm. For fine dining prices, this was completely unacceptable.",
+      "stars": 2,
+      "review_id": "test_075"
+    },
+    {
+      "text": "Decent pizza but nothing to write home about. Crust was a bit doughy in the middle. Toppings were fresh. Good for takeout when you want something quick.",
+      "stars": 3,
+      "review_id": "test_076"
+    },
+    {
+      "text": "The tres leches cake was moist and perfectly sweet. Tacos al pastor were authentic with great flavor. Salsa verde had the perfect kick. New favorite Mexican spot!",
+      "stars": 5,
+      "review_id": "test_077"
+    },
+    {
+      "text": "Bland, uninspired food. The chicken parmesan had no flavor and the pasta was mushy. Even the bread was stale. How is this place still in business?",
+      "stars": 1,
+      "review_id": "test_078"
+    },
+    {
+      "text": "Great little deli. Sandwiches are huge and packed with quality meats and cheeses. The pickles are house-made and delicious. Cash only but there's an ATM inside.",
+      "stars": 4,
+      "review_id": "test_079"
+    },
+    {
+      "text": "The peking duck was phenomenal! Crispy skin, tender meat, and the pancakes were perfect. Every dish we ordered was excellent. Best Chinese food in the area.",
+      "stars": 5,
+      "review_id": "test_080"
+    },
+    {
+      "text": "Food was okay but portion sizes are laughable for the price. Left hungry after spending $30 on an entree. Service was slow and inattentive.",
+      "stars": 2,
+      "review_id": "test_081"
+    },
+    {
+      "text": "Nice atmosphere and the food is decent. The burgers are juicy and the onion rings are crispy. Beer selection could be better. Good for casual dining.",
+      "stars": 3,
+      "review_id": "test_082"
+    },
+    {
+      "text": "The best tiramisu I've had outside of Italy! Light, not too sweet, and the espresso flavor really shines through. The pasta dishes were equally impressive.",
+      "stars": 5,
+      "review_id": "test_083"
+    },
+    {
+      "text": "Soggy fish and chips. The batter was greasy and fell apart. Tartar sauce tasted store-bought. For a place that specializes in fish, this was embarrassing.",
+      "stars": 2,
+      "review_id": "test_084"
+    },
+    {
+      "text": "Solid breakfast spot. Eggs were cooked well, bacon was crispy, and the hash browns were perfectly golden. Coffee is strong and bottomless. No complaints!",
+      "stars": 4,
+      "review_id": "test_085"
+    },
+    {
+      "text": "Mind-blowing flavors! The chef clearly knows what they're doing. Every bite was an adventure. The tasting menu is pricey but showcases incredible creativity.",
+      "stars": 5,
+      "review_id": "test_086"
+    },
+    {
+      "text": "The gyro meat was dry and the tzatziki sauce was watery. Fries were soggy. Only positive was the large portion size. Quality over quantity please!",
+      "stars": 2,
+      "review_id": "test_087"
+    },
+    {
+      "text": "Family-friendly spot with something for everyone. Kids menu has good options. Food is consistent and reasonably priced. Can get loud when busy but that's expected.",
+      "stars": 3,
+      "review_id": "test_088"
+    },
+    {
+      "text": "The ceviche was incredibly fresh with the perfect balance of lime and heat. Empanadas were crispy and flavorful. Pisco sours were perfectly mixed. Outstanding Peruvian food!",
+      "stars": 5,
+      "review_id": "test_089"
+    },
+    {
+      "text": "Frozen vegetables in a stir fry? Really? The meat was tough and the sauce was too sweet. For these prices I expected fresh ingredients. Very disappointed.",
+      "stars": 1,
+      "review_id": "test_090"
+    },
+    {
+      "text": "Good spot for lunch. Salads are fresh and portion sizes are reasonable. The soup of the day is usually a safe bet. Service is quick which is great for work breaks.",
+      "stars": 4,
+      "review_id": "test_091"
+    },
+    {
+      "text": "The moussaka was authentic and delicious. Layers of eggplant, meat, and bechamel were perfect. The Greek salad was fresh and the feta was creamy. Opa!",
+      "stars": 5,
+      "review_id": "test_092"
+    },
+    {
+      "text": "Microwaved food disguised as homemade. The lasagna was rubbery and the garlic bread was burnt. Save your money and go literally anywhere else.",
+      "stars": 1,
+      "review_id": "test_093"
+    },
+    {
+      "text": "The açai bowl was fresh and loaded with toppings. Smoothies are delicious and not overly sweet. Great healthy options. A bit pricey but good quality ingredients.",
+      "stars": 4,
+      "review_id": "test_094"
+    },
+    {
+      "text": "Exceptional farm-to-table experience. Every ingredient tasted fresh and seasonal. The chef came out to explain each dish. Service was impeccable. Worth every penny!",
+      "stars": 5,
+      "review_id": "test_095"
+    },
+    {
+      "text": "The pho had no depth of flavor and the meat was fatty. Spring rolls were okay but nothing special. Much better Vietnamese food can be found down the street.",
+      "stars": 2,
+      "review_id": "test_096"
+    },
+    {
+      "text": "Comfortable neighborhood restaurant. Food is consistently good without being exceptional. Prices are fair and portions are adequate. Perfect for a weeknight dinner.",
+      "stars": 3,
+      "review_id": "test_097"
+    },
+    {
+      "text": "The wagyu beef was melt-in-your-mouth tender. Paired perfectly with the recommended wine. Expensive but this is truly special occasion dining. The service was flawless.",
+      "stars": 5,
+      "review_id": "test_098"
+    },
+    {
+      "text": "Hair in my food and the server argued with me about it. Food quality aside, the attitude was unacceptable. Manager offered a comp but the damage was done.",
+      "stars": 1,
+      "review_id": "test_099"
+    },
+    {
+      "text": "Charming bistro with a nice outdoor seating area. The quiche was eggy and flavorful, and the mixed greens were fresh. Coffee could be stronger but overall a pleasant experience.",
+      "stars": 4,
+      "review_id": "test_100"
     }
   ]
 }

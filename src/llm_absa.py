@@ -1,5 +1,6 @@
 import json
 import re
+import time
 from typing import List, Dict, Any, Optional
 import ollama
 from src.base import ABSAAnalyzer, AspectSentiment
@@ -7,263 +8,218 @@ from src.base import ABSAAnalyzer, AspectSentiment
 
 class LLMABSA(ABSAAnalyzer):
 
-    def __init__(self, model_name: str = "llama3.1:8b", temperature: float = 0.1, max_retries: int = 3):
+    def __init__(
+            self,
+            model_name: str = "orca2",
+            temperature: float = 0.1,
+            max_retries: int = 1,
+            cache_responses: bool = True,
+            timeout: int = 30
+    ):
         self.model_name = model_name
         self.temperature = temperature
         self.max_retries = max_retries
+        self.cache_responses = cache_responses
+        self.timeout = timeout
+        self._response_cache = {}
+        self._model_verified = False
         self._verify_model()
 
     def _verify_model(self):
+        if self._model_verified:
+            return
         try:
-            print(f"Using model '{self.model_name}'...")
-
-            try:
-                ollama.show(self.model_name)
-                print(f"Model '{self.model_name}' is available.")
-            except:
-                print(f"Model '{self.model_name}' not found. Attempting to pull...")
-                ollama.pull(self.model_name)
-                print(f"Model '{self.model_name}' pulled successfully.")
-
+            ollama.show(self.model_name)
+            print(f"Model '{self.model_name}' ready")
+            self._model_verified = True
         except Exception as e:
-            print(f"Warning: Could not verify model: {e}")
-            print(f"Will attempt to use model '{self.model_name}' anyway.")
-            print("If this fails, run: ollama pull " + self.model_name)
+            print(f"Model '{self.model_name}' not available: {e}")
 
-#Used Claude for this function, this is the exact prompt I gave it:
-#"Create a Python function that generates a prompt for ASBA. It should take text/string as input and return a formatted prompt string.
-# Include clear instructions and examples, specify JSON output with aspect, sentiment and confidence fields.Format the final text input at the end of the prompt"
-    def _create_prompt(self, text: str) -> str:
-        prompt = """You are an expert at aspect-based sentiment analysis. Your task is to identify specific aspects (features, attributes, or entities) mentioned in text and determine the sentiment expressed toward each aspect.
+    def _build_prompt(self, text: str) -> str:
+        return f"""Analyze this review and expertly extract aspects with their sentiments. Return ONLY valid JSON.
 
-    CRITICAL RULES:
-    1. Sentiment must be EXACTLY one of these three words: "positive", "negative", or "neutral"
-    2. DO NOT use words like: mixed, good, great, bad, interesting, friendly, disgusting, awful, excellent, etc.
-    3. If something is described positively (good, great, excellent, friendly, interesting) → use "positive"
-    4. If something is described negatively (bad, disgusting, awful, terrible) → use "negative"  
-    5. If something is mixed or unclear → use "neutral"
+REVIEW: "{text}"
 
-    Instructions:
-    1. Identify all aspects mentioned in the text (e.g., food, service, price, quality, etc.)
-    2. For each aspect, determine if the sentiment is positive, negative, or neutral
-    3. Provide a confidence score between 0.0 and 1.0
-    4. Return ONLY valid JSON in the exact format shown below
+Return ONLY JSON with this exact structure:
+{{
+  "aspects": [
+    {{"aspect": "aspect_name", "sentiment": "positive|negative|neutral", "confidence": 0.9}}
+  ]
+}}
 
-    Output format (JSON only, no other text):
-    {{
-      "aspects": [
-        {{
-          "aspect": "aspect name",
-          "sentiment": "positive",
-          "confidence": 0.95
-        }}
-      ]
-    }}
+Guidelines:
+- Be concise and extract specific terms like "service", "pasta", "price", "staff"
+- If sentiment unclear, set it to "neutral"
+- Confidence between 0.5 and 1.0
+- Return ONLY JSON, nothing else.
+"""
 
-    Examples:
+    def _call_llm(self, prompt: str) -> str:
+        cache_key = hash(prompt)
+        if self.cache_responses and cache_key in self._response_cache:
+            return self._response_cache[cache_key]
 
-    Input: "The pizza was delicious but the service was terrible."
-    Output:
-    {{
-      "aspects": [
-        {{"aspect": "pizza", "sentiment": "positive", "confidence": 0.95}},
-        {{"aspect": "service", "sentiment": "negative", "confidence": 0.95}}
-      ]
-    }}
-
-    Input: "Great food and amazing atmosphere, though a bit pricey."
-    Output:
-    {{
-      "aspects": [
-        {{"aspect": "food", "sentiment": "positive", "confidence": 0.90}},
-        {{"aspect": "atmosphere", "sentiment": "positive", "confidence": 0.95}},
-        {{"aspect": "price", "sentiment": "negative", "confidence": 0.75}}
-      ]
-    }}
-
-    Input: "The battery life is excellent and the screen is bright, but it's quite heavy."
-    Output:
-    {{
-      "aspects": [
-        {{"aspect": "battery life", "sentiment": "positive", "confidence": 0.95}},
-        {{"aspect": "screen", "sentiment": "positive", "confidence": 0.90}},
-        {{"aspect": "weight", "sentiment": "negative", "confidence": 0.85}}
-      ]
-    }}
-
-    Now analyze this text:
-    Input: "{text}"
-    Output:"""
-        return prompt.format(text=text)
-
-    def _call_llama(self, prompt: str) -> str:
         for attempt in range(self.max_retries):
             try:
-                response = ollama.generate(
+                response = ollama.chat(
                     model=self.model_name,
-                    prompt=prompt,
+                    messages=[{"role": "user", "content": prompt}],
                     options={
-                        'temperature': self.temperature,
-                        'num_predict': 500,  # Maximum tokens to generate
+                        "temperature": self.temperature,
+                        "num_predict": 100,
+                        "top_k": 20,
+                        "top_p": 0.9,
                     }
                 )
-                return response['response']
+                content = response.get("message", {}).get("content", "").strip()
+                if content:
+                    if self.cache_responses:
+                        self._response_cache[cache_key] = content
+                    return content
             except Exception as e:
-                if attempt == self.max_retries - 1:
-                    raise RuntimeError(f"Failed to generate response after {self.max_retries} attempts: {e}")
-                print(f"Attempt {attempt + 1} failed, retrying... Error: {e}")
+                print(f"LLM call failed (attempt {attempt + 1}): {e}")
+                time.sleep(0.3)
 
-        return ""
+        return '{"aspects": []}'
 
-    def _parse_json_response(self, response: str) -> Dict[str, Any]:
-        try:
-            return json.loads(response.strip())
-        except json.JSONDecodeError:
-            pass
-
-        json_match = re.search(r'\{[^{}]*\{.*?\}[^{}]*\}|\{.*?\}', response, re.DOTALL)
-        if json_match:
-            try:
-                return json.loads(json_match.group())
-            except json.JSONDecodeError:
-                pass
-
-        brace_count = 0
-        start_idx = None
-        for i, char in enumerate(response):
-            if char == '{':
-                if start_idx is None:
-                    start_idx = i
-                brace_count += 1
-            elif char == '}':
-                brace_count -= 1
-                if brace_count == 0 and start_idx is not None:
-                    try:
-                        json_str = response[start_idx:i + 1]
-                        return json.loads(json_str)
-                    except json.JSONDecodeError:
-                        pass
-                    start_idx = None
-
-        aspects_match = re.search(r'"aspects"\s*:\s*\[(.+?)\]', response, re.DOTALL)
-        if aspects_match:
-            try:
-                return json.loads('{"aspects": [' + aspects_match.group(1) + ']}')
-            except json.JSONDecodeError:
-                pass
-
-        # This is Claude generated, couldn't figure out the regex:(
-        cleaned = re.sub(r'^```json\s*', '', response.strip())
-        cleaned = re.sub(r'\s*```$', '', cleaned).strip()
-
-        try:
-            return json.loads(cleaned)
-        except json.JSONDecodeError:
-            print("Warning: Failed to parse JSON from response.")
-            print(f"Response preview: {response[:500]}...")
+    def _extract_json(self, text: str) -> Dict[str, Any]:
+        if not text:
             return {"aspects": []}
 
-    def _validate_and_convert(self, parsed_data: Dict[str, Any]) -> List[AspectSentiment]:
-        results = []
-        aspects = parsed_data.get('aspects', [])
-        if not isinstance(aspects, list):
-            print("Warning: 'aspects' is not a list or missing.")
-            return results
+        text = text.strip()
+        text = re.sub(r'```json\s*|\s*```', '', text)
+        start_idx = text.find('{')
+        end_idx = text.rfind('}')
 
+        if start_idx == -1 or end_idx == -1 or end_idx <= start_idx:
+            return {"aspects": []}
 
-        SENTIMENT_MAP = {
-            'good': 'positive', 'great': 'positive', 'excellent': 'positive',
-            'amazing': 'positive', 'wonderful': 'positive', 'friendly': 'positive',
-            'interesting': 'positive', 'nice': 'positive', 'lovely': 'positive',
-            'bad': 'negative', 'terrible': 'negative', 'awful': 'negative',
-            'disgusting': 'negative', 'poor': 'negative', 'horrible': 'negative',
-            'mixed': 'neutral', 'ok': 'neutral', 'okay': 'neutral', 'fine': 'neutral'
+        json_str = text[start_idx:end_idx + 1]
+        json_str = re.sub(r',\s*}', '}', json_str)
+        json_str = re.sub(r',\s*]', ']', json_str)
+
+        try:
+            parsed = json.loads(json_str)
+            if isinstance(parsed, dict):
+                return parsed
+            else:
+                return {"aspects": []}
+        except json.JSONDecodeError as e:
+            try:
+                json_str = re.sub(r'(\w+):', r'"\1":', json_str)
+                parsed = json.loads(json_str)
+                if isinstance(parsed, dict):
+                    return parsed
+            except json.JSONDecodeError:
+                pass
+
+            print(f"JSON parse failed: {e}")
+            return {"aspects": []}
+
+    def _quick_sentiment_analysis(self, text: str, aspect: str) -> tuple[str, float]:
+        """Local heuristic-based sentiment check."""
+        text_lower = text.lower()
+        aspect_lower = aspect.lower()
+
+        positive_words = {'amazing', 'delicious', 'yummy', 'great', 'excellent',
+                          'perfect', 'love', 'loved', 'favorite', 'best', 'good',
+                          'friendly', 'fast', 'quick', 'pleasant'}
+        negative_words = {'terrible', 'awful', 'bad', 'slow', 'rude', 'cold',
+                          'dirty', 'expensive', 'overpriced', 'worst', 'wait'}
+
+        pos_count = sum(1 for w in positive_words if w in text_lower)
+        neg_count = sum(1 for w in negative_words if w in text_lower)
+
+        if pos_count > neg_count:
+            return "positive", 0.8
+        elif neg_count > pos_count:
+            return "negative", 0.8
+        return "neutral", 0.6
+
+    def _validate_aspect(self, text: str, aspect_data: Any) -> Optional[AspectSentiment]:
+        if not isinstance(aspect_data, dict):
+            return None
+
+        aspect = str(aspect_data.get("aspect", "")).strip().lower()
+        if not aspect:
+            return None
+
+        raw_sentiment = str(aspect_data.get("sentiment", "neutral")).lower()
+        sentiment_map = {
+            "pos": "positive", "positive": "positive", "good": "positive",
+            "neg": "negative", "negative": "negative", "bad": "negative",
+            "neu": "neutral", "neutral": "neutral"
+        }
+        sentiment = sentiment_map.get(raw_sentiment, "neutral")
+
+        try:
+            confidence = float(aspect_data.get("confidence", 0.7))
+            confidence = max(0.0, min(1.0, confidence))
+        except (TypeError, ValueError):
+            confidence = 0.7
+
+        if sentiment not in {"positive", "negative", "neutral"} or confidence < 0.6:
+            sentiment, confidence = self._quick_sentiment_analysis(text, aspect)
+
+        return AspectSentiment(aspect=aspect, sentiment=sentiment, confidence=confidence)
+
+    def _rule_based_fallback(self, text: str) -> List[AspectSentiment]:
+        aspects = []
+        text_lower = text.lower()
+
+        common_aspects = {
+            'food', 'service', 'price', 'atmosphere', 'staff',
+            'location', 'menu', 'quality', 'portion', 'wait', 'cleanliness'
         }
 
-        for item in aspects:
-            try:
-                if not isinstance(item, dict):
-                    print(f"Warning: Skipping non-dict aspect entry: {item}")
-                    continue
+        for aspect in common_aspects:
+            if aspect in text_lower:
+                sentiment, confidence = self._quick_sentiment_analysis(text, aspect)
+                aspects.append(AspectSentiment(aspect, sentiment, confidence))
+        return aspects[:5]
 
-                aspect = str(item.get('aspect', '')).strip()
-                sentiment = str(item.get('sentiment', 'neutral')).lower().strip()
-                confidence = item.get('confidence', 0.5)
-
-                try:
-                    confidence = float(confidence)
-                except (TypeError, ValueError):
-                    confidence = 0.5
-
-                if sentiment not in ['positive', 'negative', 'neutral']:
-                    original = sentiment
-                    sentiment = SENTIMENT_MAP.get(sentiment, 'neutral')
-                    print(f"Warning: Mapped invalid sentiment '{original}' → '{sentiment}'")
-
-                confidence = max(0.0, min(1.0, confidence))
-
-                if aspect:
-                    results.append(
-                        AspectSentiment(
-                            aspect=aspect,
-                            sentiment=sentiment,
-                            confidence=confidence,
-                            text_span=None
-                        )
-                    )
-            except Exception as e:
-                print(f"Warning: Skipping invalid aspect entry {item}. Error: {e}")
-                continue
-
-        unique = {}
-        for r in results:
-            key = (r.aspect.lower(), r.sentiment)
-            if key not in unique or r.confidence > unique[key].confidence:
-                unique[key] = r
-
-        return list(unique.values())
-
-    def analyze(self, text: str, debug: bool = False) -> List[AspectSentiment]:
-        if not text or not text.strip():
+    def analyze(self, text: str) -> List[AspectSentiment]:
+        if not text.strip():
             return []
 
-        prompt = self._create_prompt(text)
-        response = self._call_llama(prompt)
+        try:
+            prompt = self._build_prompt(text)
+            response = self._call_llm(prompt)
+            parsed = self._extract_json(response)
+            aspects = []
 
-        if debug:
-            print("\n=== DEBUG: LLM Response ===")
-            print(response)
-            print("=" * 50)
+            seen = set()
+            for aspect_data in parsed.get("aspects", []):
+                aspect_obj = self._validate_aspect(text, aspect_data)
+                if aspect_obj and aspect_obj.aspect not in seen:
+                    aspects.append(aspect_obj)
+                    seen.add(aspect_obj.aspect)
 
-        parsed_data = self._parse_json_response(response)
+            if not aspects:
+                aspects = self._rule_based_fallback(text)
 
-        if debug:
-            print("\n=== DEBUG: Parsed Data ===")
-            print(parsed_data)
-            print("=" * 50)
+            return aspects
 
-        return self._validate_and_convert(parsed_data)
+        except Exception as e:
+            print(f"Analysis failed for text '{text[:40]}...': {e}")
+            return self._rule_based_fallback(text)
 
     def analyze_batch(self, texts: List[str]) -> List[List[AspectSentiment]]:
-        return [self.analyze(text) for text in texts]
+        if not texts:
+            return []
 
-    def get_model_info(self) -> Dict[str, Any]:
-        """
-        Get information about the current model.
-        """
-        try:
-            model_info = ollama.show(self.model_name)
-            return {
-                'model_name': self.model_name,
-                'temperature': self.temperature,
-                'max_retries': self.max_retries,
-                'model_details': model_info
-            }
-        except Exception as e:
-            return {
-                'model_name': self.model_name,
-                'temperature': self.temperature,
-                'max_retries': self.max_retries,
-                'error': str(e)
-            }
+        print(f"Processing {len(texts)} reviews with optimized LLM...")
+        start_time = time.time()
+        results = []
 
+        for i, text in enumerate(texts):
+            results.append(self.analyze(text))
+            if (i + 1) % 20 == 0:
+                elapsed = time.time() - start_time
+                avg = elapsed / (i + 1)
+                remaining = avg * (len(texts) - (i + 1))
+                print(f"📊 {i + 1}/{len(texts)} processed | avg={avg:.2f}s | ETA={remaining:.1f}s")
+
+        total_time = time.time() - start_time
+        print(f"Completed {len(texts)} reviews in {total_time:.1f}s (avg={total_time / len(texts):.2f}s each)")
+        return results
