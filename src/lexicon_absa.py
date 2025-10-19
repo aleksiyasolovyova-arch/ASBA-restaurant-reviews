@@ -64,7 +64,6 @@ class LexiconABSA(ABSAAnalyzer):
             if token.pos_ in ["NOUN", "PROPN"]:
                 parts = []
 
-                # Get compound modifiers
                 for child in token.children:
                     if child.dep_ == "compound":
                         parts.append(child.lemma_.lower())
@@ -156,7 +155,6 @@ class LexiconABSA(ABSAAnalyzer):
                 if nearest_aspect:
                     aspect_scores[nearest_aspect].append(score)
 
-        # Add fallback: if no opinions found for an aspect, use sentence sentiment
         for aspect in aspects:
             if not aspect_scores[aspect]:
                 # Find sentence containing the aspect
@@ -170,24 +168,19 @@ class LexiconABSA(ABSAAnalyzer):
         return aspect_scores
 
     def analyze(self, text: str) -> List[AspectSentiment]:
-        """Analyze text and return aspect-level sentiments."""
         doc = self.nlp(text)
 
-        # Extract all possible aspects
         compound_aspects = self._extract_compound_aspects(doc)
         single_aspects = self._extract_aspects_from_chunks(doc)
         all_aspects = compound_aspects | single_aspects
 
-        # Extract opinion words
         opinions = self._get_opinion_words(doc)
 
-        # Connect aspects to opinions
         aspect_scores = self._find_aspect_opinion_pairs(doc, all_aspects, opinions)
 
-        # Build results
         results = []
         for aspect, scores in aspect_scores.items():
-            if scores:  # Only include aspects with sentiment
+            if scores:
                 avg_score = statistics.mean(scores)
 
                 sentiment = (
