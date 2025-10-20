@@ -10,9 +10,9 @@ class LLMABSA(ABSAAnalyzer):
 
     def __init__(
             self,
-            model_name: str = "llama3.2:1b",
+            model_name: str = "qwen2.5:7b",
             temperature: float = 0.0,
-            max_retries: int = 1,
+            max_retries: int = 2,
             cache_responses: bool = True,
             timeout: int = 30
     ):
@@ -39,27 +39,30 @@ class LLMABSA(ABSAAnalyzer):
 # "Create a Python function that generates a prompt for ASBA. It should take text/string as input and return a formatted prompt string.
 # Include clear instructions and examples, specify JSON output with aspect, sentiment and confidence fields.Format the final text input at the end of the prompt"
     def _build_prompt(self, text: str) -> str:
-        return f"""Analyze this restaurant review and extract aspects with their sentiments.
+        return f"""You are an expert in aspec-based sentiment analysis. Analyze this restaurant review and extract aspects with their sentiments.
 
     Review: "{text}"
 
-    Instructions:
-    - Extract ONLY aspects explicitly mentioned in the review
-    - For each aspect, determine sentiment: "positive", "negative", or "neutral"
-    - Assign confidence 0.6-1.0 based on how clear the sentiment is
-    - Return ONLY valid JSON, no other text
+    INSTRUCTIONS:
+    - Extract aspects that are explicitly mentioned; if none are explicit, USE CONTEXT CLUES to ascertain them.
+    - For each aspect, determine sentiment. The sentiments can be ONLY either of these three: "positive", "negative", or "neutral".
+    - Consider cues of sarcasm/irony and understatement (e.g., scare quotes like 'fresh', contrast like "great food if you like salt", "not bad", "didn't dislike"). Infer the intended polarity.
+    - If sarcasm is detected, lower confidence slightly (e.g., 0.6–0.8) and choose the sentiment that aligns with the overall implication.
+    - Assign confidence 0.6–1.0 based on how clear the sentiment is.
+    - Return ONLY valid JSON, no other text.
 
-    Output format:
+    OUTPUT FORMAT:
     {{
       "aspects": [
         {{"aspect": "aspect_name", "sentiment": "sentiment", "confidence": 0.0}}
       ]
     }}
 
-    Examples of different scenarios:
+    Examples(do not copy directly, use as inspiration):
     - "The food was amazing but service was slow" → food:positive, service:negative
-    - "Everything was perfect" → food:positive, service:positive, ambiance:positive
-    - "It was okay, nothing special" → food:neutral, service:neutral
+    - "It was okay, nothing special" → overall:neutral (if no explicit aspects)
+    - "Yeah, the 'fresh' salad was awesome… if you like wilted lettuce" → salad:negative
+    - "Sure, best 'special sauce' ever — it's ketchup" → sauce:negative
 
     Now analyze this review:"""
 

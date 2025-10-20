@@ -41,3 +41,4 @@ def compare_analyzers(text: str, analyzers: Dict[str, Any]) -> pd.DataFrame:
             print(f"Error with {name}: {e}")
 
     return pd.DataFrame(comparison_data)
+

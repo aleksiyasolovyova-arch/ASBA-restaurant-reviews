@@ -129,7 +129,6 @@ class LexiconABSA(ABSAAnalyzer):
             opinion_idx = opinion_token.i
 
             # Strategy 1: Dependency-based connection
-            # Check if opinion modifies an aspect
             head = opinion_token.head
             if head.i in aspect_tokens:
                 aspect_scores[aspect_tokens[head.i]].append(score)
@@ -142,7 +141,6 @@ class LexiconABSA(ABSAAnalyzer):
                     break
             else:
                 # Strategy 2: Window-based approach
-                # Find nearest aspect within 5 tokens
                 min_dist = float('inf')
                 nearest_aspect = None
 
