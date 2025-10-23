@@ -108,10 +108,11 @@ Install all with:
 ## Usage examples
 Below are basic Python examples for each implementation. All analyzers return List[AspectSentiment].
 
-Common utilities \
-  from src.base import AspectSentiment \
+Common utilities
+````
+  from src.base import AspectSentiment 
   text = "The food was amazing but the service was slow, though the patio was lovely."
-
+````
 ***LexiconABSA (no external ML downloads beyond spaCy/NLTK)*** \
 ````
   from src.lexicon_absa import LexiconABSA
