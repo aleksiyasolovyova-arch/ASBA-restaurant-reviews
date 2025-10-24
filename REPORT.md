@@ -53,6 +53,17 @@ Common interface
 - For Opinion-Aspect Linking, I tried a 3-tier strategy, starting with dependency-based, proximity-based as a fallback and finally sentence-level.
 - The trade-off is that it heavily struggles with implicit aspects and sarcasm.
 ### 3.2. Transformer Implementation
+- Model Selection: Selected yangheng/deberta-v3-base-absa-v1.1 as it's already fine-tuned for ABSA tasks, eliminating the need to train a model from scratch on restaurant reviews.
+- Aspect Extraction: Used spaCy to extract nouns (NOUN and PROPN tags) as aspect candidates. This two-stage approach separates finding aspects from analyzing sentiments. Limited to 5 aspects per review to keep processing manageable.
+- Input Format: Formatted inputs as "text [SEP] aspect" which is what the model expects, it passes the full review text along with each specific aspect to get targeted sentiment predictions.
+- Device Handling: Added GPU support with automatic fallback to CPU. The model automatically moves to GPU when available.
+- Memory Optimization: Used torch.no_grad() during prediction to prevent gradient calculation, which isn't needed and wastes memory.
+- Filtering: Excluded generic words like 'thing', 'place', 'way', 'time' and anything under 3 characters to avoid extracting meaningless aspects.
+- Fallback: Returns 'overall' as a default aspect when no nouns are found, ensuring the model always produces output rather than returning empty results.
+- The trade-off is that while it achieves strong sentiment classification accuracy, the aspect extraction is simplistic and will miss implicit aspects, multi-word phrases (e.g., "customer service"), and aspects that aren't strictly nouns, making it less comprehensive than the LLM approach but faster and more consistent than the lexicon method.
+
+
+
 ### 3.3. LLM Implementation
 - Model Selection: Selected Qwen 2.5 7B after testing multiple models, as it provided the optimal balance of accuracy and inference speed on limited hardware while handling JSON output formatting reliably.
 - Prompt Engineering: Implemented chain-of-thought prompting with explicit instructions, 4 few-shot examples, and structured JSON schema to maximize consistency and reduce hallucinations.
