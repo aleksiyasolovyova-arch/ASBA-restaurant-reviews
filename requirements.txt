@@ -12,6 +12,8 @@ ollama
 # Data Processing
 pandas
 numpy
+scikit-learn
+
 
 # API and Utilities
 pydantic

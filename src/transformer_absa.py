@@ -56,7 +56,7 @@ class TransformerABSA(ABSAAnalyzer):
         return aspects[:5] if aspects else ['overall']
 
     def _predict_sentiment(self, text: str, aspect: str) -> Tuple[str, float]:
-        #Predict sentiment for text-aspect pair.#
+        #Predict sentiment for text-aspect pair.
         input_text = f"{text} [SEP] {aspect}"
 
         inputs = self.tokenizer(
