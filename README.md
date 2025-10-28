@@ -20,18 +20,22 @@ Repository layout (ASCII tree):
 project-root
 ├── README.md
 ├── requirements.txt
+├── doc
+│   └── report.pdf
 ├── data
 │   ├── test_samples.json
 │   └── evaluation_data.json
 ├── notebooks
 │   └── comparison.ipynb
+│   └── exploration.ipynb
 ├── src
 │   ├── base.py
 │   ├── lexicon_absa.py
 │   ├── transformer_absa.py
 │   └── llm_absa.py
+│   └── utils.py
 └── tests
-    └── test_llm.py
+    └── test_absa.py
 ```
 
 ## Setup instructions
